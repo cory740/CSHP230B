@@ -47,7 +47,11 @@ namespace HelloWorld.Tests
 
             // Assert
             var products = (Product[])((System.Web.Mvc.ViewResultBase)(result)).Model;
-            Assert.AreEqual(2, products.Length, "Length is invalid");
+            Assert.AreEqual(5, products.Length, "Length is invalid");
+
+            Assert.IsTrue(products.Where(t => t.Price > 10).Count() >= 3, "Too Few > $10");
+
+            Assert.IsTrue(products.Where(t => t.Price > 10).Count() <= 2, "Too Few > $10");
         }
     }
 }
