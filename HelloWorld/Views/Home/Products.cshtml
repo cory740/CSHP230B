@@ -1,7 +1,8 @@
 ﻿@model HelloWorld.Models.Product[]
 
 @{
-    //ViewBag.Title = "Products";
+    ViewBag.MyLittleTitle = "Little Products";
+    Layout = "~/Views/_BasicLayout.cshtml";
 }
 
 @if (Model.Length > 0)

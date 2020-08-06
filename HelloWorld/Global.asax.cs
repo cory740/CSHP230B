@@ -1,3 +1,5 @@
+using Autofac;
+using Autofac.Integration.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,8 +7,6 @@ using System.Reflection;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
-using Autofac;
-using Autofac.Integration.Mvc;
 
 namespace HelloWorld
 {
@@ -35,26 +35,23 @@ namespace HelloWorld
             DependencyResolver.SetResolver(new AutofacDependencyResolver(container));
         }
 
-
         protected void Application_Error()
         {
             var exception = Server.GetLastError();
 
-            Server.ClearError(); // if you don't clear the error then you'll still get the yellow page
+            //Server.ClearError();
 
-            var routeData = new RouteData();
-            routeData.Values.Add("controller", "Error");
-            routeData.Values.Add("action", "Error");
+            //var routeData = new RouteData();
+            //routeData.Values.Add("controller", "Error");
+            //routeData.Values.Add("action", "Error");
 
-            IController errorController = new Controllers.ErrorController();
-            errorController.Execute(new RequestContext(new HttpContextWrapper(Context), routeData));
+            //IController errorController = new Controllers.ErrorController();
+            //errorController.Execute(new RequestContext(new HttpContextWrapper(Context), routeData));
 
-            //OR
-
+            // OR
             //Context.Server.TransferRequest("/error/error");
-            //OR
+            // OR
             //Context.Response.Redirect("/error/error");
         }
-
     }
 }

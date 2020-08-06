@@ -20,8 +20,13 @@ namespace HelloWorld.Tests
             // Act
             var result = controller.Products();
 
+            var viewResult = (System.Web.Mvc.ViewResultBase)result;
+
+            var model = viewResult.Model;
+
             // Assert
-            var products = (Product[])((System.Web.Mvc.ViewResultBase)(result)).Model;
+            var products = (Product[])model;
+
             Assert.AreEqual(4, products.Length, "Length is invalid");
         }
 
@@ -29,13 +34,17 @@ namespace HelloWorld.Tests
         public void TestMethodWithMoq()
         {
             var mockProductRepository = new Mock<IProductRepository>();
+
             mockProductRepository
                 .SetupGet(t => t.Products)
                 .Returns(() =>
                 {
-                    return new Product[]{
-                        new Product{Name="Baseball"},
-                        new Product{Name="Football"}
+                    return new Product[] {
+                        new Product{Name="Baseball", Price=11},
+                        new Product{Name="Football", Price=8},
+                        new Product{Name="Tennis ball", Price=13},
+                        new Product{Name="Golf ball", Price=3},
+                        new Product{Name="Ping pong ball", Price=12},
                     };
                 });
 
@@ -49,9 +58,11 @@ namespace HelloWorld.Tests
             var products = (Product[])((System.Web.Mvc.ViewResultBase)(result)).Model;
             Assert.AreEqual(5, products.Length, "Length is invalid");
 
-            Assert.IsTrue(products.Where(t => t.Price > 10).Count() >= 3, "Too Few > $10");
+            Assert.IsTrue(products.Where(t => t.Price > 10).Count() >= 3,
+                "Too few > $10");
 
-            Assert.IsTrue(products.Where(t => t.Price > 10).Count() <= 2, "Too Few > $10");
+            Assert.IsTrue(products.Where(t => t.Price < 10).Count() <= 2,
+                "Too many < $10");
         }
     }
 }
