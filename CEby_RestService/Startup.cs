@@ -10,7 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
-namespace CEby_RestProject
+namespace CEby_RestService
 {
     public class Startup
     {
@@ -26,7 +26,7 @@ namespace CEby_RestProject
         {
             services
                 .AddMvc()
-                .AddXmlDataContractSerializerFormatters()
+                .AddXmlSerializerFormatters()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

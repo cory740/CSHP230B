@@ -1,0 +1,164 @@
+{
+	"info": {
+		"_postman_id": "b482cc95-f075-4734-925c-74db404cd532",
+		"name": "RestProject",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GetAll",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"Name\": \"bob\",\r\n    \"Phones\": []\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:12888/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "12888",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"tim\",\r\n    \"email\": \"tim@domain.com\",\r\n    \"Password\": \"tim-password\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:12888/api/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "12888",
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetSpecific",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"bob\",\r\n    \"email\": \"bob@domain.com\",\r\n    \"Password\": \"bob-password\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:12888/api/users/1002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "12888",
+					"path": [
+						"api",
+						"users",
+						"1002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"bob\",\r\n    \"email\": \"bob@domain.com\",\r\n    \"Password\": \"bob-password\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:12888/api/users/1002",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "12888",
+					"path": [
+						"api",
+						"users",
+						"1002"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Put",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"bob\",\r\n    \"email\": \"bob_update@domain.com\",\r\n    \"password\": \"password_updated\"\r\n\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:12888/api/users/1003",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "12888",
+					"path": [
+						"api",
+						"users",
+						"1003"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

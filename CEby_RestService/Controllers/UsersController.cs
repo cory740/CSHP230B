@@ -1,31 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
-using CEby_RestProject.Models;
-using Microsoft.AspNetCore.Http;
+using CEby_RestService.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
-namespace CEby_RestProject.Controllers
+namespace CEby_RestService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UsersController : ControllerBase
     {
         public static List<Users> users = new List<Users>();
         public static int currentId = 1001;
-        // GET: api/Users
+        // GET: api/<UsersController>
         [HttpGet]
         public IEnumerable<Users> Get()
         {
             return users;
         }
 
-        // GET: api/Users/5
-        [HttpGet("{id}", Name = "Get")]
+        // GET api/<UsersController>/5
+        [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
             var user = users.FirstOrDefault(t => t.UserId == id);
@@ -38,7 +36,7 @@ namespace CEby_RestProject.Controllers
             return new OkObjectResult(user);
         }
 
-        // POST: api/Users
+        // POST api/<UsersController>
         [HttpPost]
         public IActionResult Post([FromBody] Users value)
         {
@@ -52,13 +50,10 @@ namespace CEby_RestProject.Controllers
 
             users.Add(value);
 
-            //var result = new { Id = value.Id, Candy = true };
-
-            return CreatedAtAction(nameof(Get),
-                new { id = value.UserId }, value);
+            return CreatedAtAction(nameof(Get), new { id = value.UserId }, value);
         }
 
-        // PUT: api/Users/5
+        // PUT api/<UsersController>/5
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Users value)
         {
@@ -76,7 +71,7 @@ namespace CEby_RestProject.Controllers
             return Ok(user);
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE api/<UsersController>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
