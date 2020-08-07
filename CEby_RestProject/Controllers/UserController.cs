@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using CEby_RestProject.Models;
@@ -15,6 +16,7 @@ namespace CEby_RestProject.Controllers
     public class UserController : ControllerBase
     {
         public static List<Users> users = new List<Users>();
+        public static int currentId = 1001;
         // GET: api/Users
         [HttpGet]
         public IEnumerable<Users> Get()
@@ -24,28 +26,68 @@ namespace CEby_RestProject.Controllers
 
         // GET: api/Users/5
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return null;
+            var user = users.FirstOrDefault(t => t.UserId == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            return new OkObjectResult(user);
         }
 
         // POST: api/Users
         [HttpPost]
-        public void Post([FromBody] Users value)
+        public IActionResult Post([FromBody] Users value)
         {
+            if (value == null)
+            {
+                return new BadRequestResult();
+            }
+
+            value.UserId = currentId++;
+            value.DateCreated = DateTime.Now;
+
             users.Add(value);
+
+            //var result = new { Id = value.Id, Candy = true };
+
+            return CreatedAtAction(nameof(Get),
+                new { id = value.UserId }, value);
         }
 
         // PUT: api/Users/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] Users value)
+        public IActionResult Put(int id, [FromBody] Users value)
         {
+            var user = users.FirstOrDefault(t => t.UserId == id);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.UserId = id;
+            user.Email = value.Email;
+            user.Password = value.Password;
+
+            return Ok(user);
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public IActionResult Delete(int id)
         {
+            var usersRemoved = users.RemoveAll(t => t.UserId == id);
+
+            if (usersRemoved == 0)
+            {
+                return NotFound(); //404
+            }
+
+            return Ok(usersRemoved); //200
         }
     }
 }
