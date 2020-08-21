@@ -5,17 +5,24 @@ using System.Web;
 using System.Web.Mvc;
 using CEby_Website.Data;
 
+
+
 namespace CEby_Website.Controllers
 {
     public class HomeController : Controller
     {
         private readonly IClassRepository classRepository;
+
         public HomeController(IClassRepository classRepository)
         {
             this.classRepository = classRepository;
-            
+
         }
 
+        public HomeController()
+        {
+            
+        }
         public ActionResult Index()
         {
             return View();
@@ -35,22 +42,23 @@ namespace CEby_Website.Controllers
             return View();
         }
 
-        public ActionResult Classes(int classid)
+        public ActionResult Classes(int id)
         {
+
             var classes = classRepository
-                .ForClass
-                .Select(t =>
-                new CEby_Website.ClassModel
-                {
-                    ClassId = t.ClassId,
-                    ClassName = t.ClassName,
-                    ClassDescription = t.ClassDescription,
-                    ClassPrice = t.ClassPrice
-                }).ToArray();
+                    .ForClass(id)
+                    .Select(t =>
+                    new CEby_Website.ClassModel
+                    {
+                        ClassId = t.ClassId,
+                        ClassName = t.ClassName,
+                        ClassDescription = t.ClassDescription,
+                        ClassPrice = t.ClassPrice
+                    }).ToArray();
 
             return View(classes);
         }
 
- 
+
     }
 }

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using CEby_Website.Data;
+using Microsoft.Data.SqlClient.Server;
 
 namespace CEby_Website
 {
     public class DatabaseAccessor
     {
+
         static DatabaseAccessor()
         {
             Instance = new minicstructorContext();
@@ -18,7 +20,7 @@ namespace CEby_Website
 
     public interface IClassRepository
     {
-        ClassModel[]
+        ClassModel[] ForClass(int classId);
     }
 
     public class ClassModel
@@ -34,9 +36,8 @@ namespace CEby_Website
 
         public ClassModel[] ForClass(int classId)
         {
-            var classes = DatabaseAccessor.Instance.Class.Where(t => t.ClassId == classId);
-
-            return classes
+            return DatabaseAccessor.Instance.Class
+                    .Where(t => t.ClassId == classId)
                     .Select(t => new ClassModel
                     {
                         ClassId = t.ClassId,
