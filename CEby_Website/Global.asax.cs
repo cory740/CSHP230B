@@ -19,6 +19,8 @@ namespace CEby_Website
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            RegisterAutofac();
+            
         }
 
         private void RegisterAutofac()

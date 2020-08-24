@@ -1,4 +1,7 @@
-﻿using Microsoft.Owin;
+﻿using CEby_Website.Models;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Owin;
 using Owin;
 
 [assembly: OwinStartupAttribute(typeof(CEby_Website.Startup))]
@@ -8,7 +11,7 @@ namespace CEby_Website
     {
         public void Configuration(IAppBuilder app)
         {
-            ConfigureAuth(app);
+            ConfigureAuth(app);          
         }
     }
 }

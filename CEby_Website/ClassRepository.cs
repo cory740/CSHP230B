@@ -4,18 +4,27 @@ using System.Linq;
 using System.Web;
 using CEby_Website.Data;
 using Microsoft.Data.SqlClient.Server;
+using Microsoft.EntityFrameworkCore;
 
 namespace CEby_Website
 {
     public class DatabaseAccessor
     {
+        private static readonly minicstructorContext entities;
 
         static DatabaseAccessor()
         {
-            Instance = new minicstructorContext();
+            entities = new minicstructorContext();
+            entities.Database.OpenConnection();
         }
 
-        public static minicstructorContext Instance { get; private set; }
+        public static minicstructorContext Instance
+        {
+            get
+            {
+                return entities;
+            }
+        }
     }
 
     public interface IClassRepository

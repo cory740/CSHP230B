@@ -1,4 +1,4 @@
-﻿@model CEby_Website.Models.ClassModel[]
+﻿@model CEby_Website.ClassModel[]
 
 @{
     Layout = null;
@@ -9,10 +9,13 @@
     <table>
         @foreach (var classId in Model)
         {
-            <tr>
-                <td>@classId.ClassId</td>
-                <td>@classId.ClassName</td>
-            </tr>
+        <tr>
+            <td>@classId.ClassId</td>
+            <td>@classId.ClassName</td>
+            <td>@classId.ClassDescription</td>
+            <td>@classId.ClassPrice</td>
+
+        </tr>
         }
     </table>
 }
