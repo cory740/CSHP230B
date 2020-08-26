@@ -29,7 +29,8 @@ namespace CEby_Website
 
     public interface IClassRepository
     {
-        ClassModel[] ForClass(int classId);
+        ClassModel[] Classes { get; }
+        ClassModel Class(int classId);
     }
 
     public class ClassModel
@@ -42,8 +43,36 @@ namespace CEby_Website
 
     public class ClassRepository : IClassRepository
     {
+        public ClassModel[] Classes
+        {
+            get
+            {
+                return DatabaseAccessor.Instance.Class
+                    .Select(t => new ClassModel { 
+                        ClassId = t.ClassId, 
+                        ClassDescription = t.ClassDescription, 
+                        ClassName = t.ClassName, 
+                        ClassPrice = t.ClassPrice })
+                    .ToArray();
+            }
+        }
 
-        public ClassModel[] ForClass(int classId)
+        public ClassModel Class(int classId)
+        {
+            var schoolClass = DatabaseAccessor.Instance.Class
+                .Where(t => t.ClassId == classId)
+                .Select(t => new ClassModel
+                {
+                    ClassId = t.ClassId,
+                    ClassDescription = t.ClassDescription,
+                    ClassName = t.ClassName,
+                    ClassPrice = t.ClassPrice
+                })
+                .First();
+
+            return schoolClass;
+        }
+       /* public ClassModel[] ForClass(int classId)
         {
             return DatabaseAccessor.Instance.Class
                     .Where(t => t.ClassId == classId)
@@ -55,7 +84,7 @@ namespace CEby_Website
                         ClassPrice = t.ClassPrice
                     })
                     .ToArray();
-        }
+        }*/
     }
 
 }

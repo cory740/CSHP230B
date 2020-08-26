@@ -1,25 +1,35 @@
-﻿@model CEby_Website.ClassModel[]
+﻿@model CEby_Website.Models.IndexModel
 
 @{
     Layout = null;
 }
 
-@if (Model.Length > 0)
-{
-    <table>
-        @foreach (var classId in Model)
-        {
-        <tr>
-            <td>@classId.ClassId</td>
-            <td>@classId.ClassName</td>
-            <td>@classId.ClassDescription</td>
-            <td>@classId.ClassPrice</td>
+<!DOCTYPE html>
 
-        </tr>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Classes</title>
+</head>
+<body>
+    <div>
+        <h4>IndexModel</h4>
+        <hr />
+        <dl class="dl-horizontal">
+        </dl>
+    </div>
+    <div class="row">
+        @foreach (var getClass in Model.GetClasses)
+        {
+            <table>
+                <tr>
+                    <td>@getClass.ClassId</td>
+                    <td>@getClass.ClassName</td>
+                    <td>@getClass.ClassDescription</td>
+                    <td>@getClass.ClassPrice</td>
+                </tr>
+            </table>
         }
-    </table>
-}
-else
-{
-    <h2>No Classes found.</h2>
-}
+    </div>
+</body>
+</html>

@@ -1,37 +1,23 @@
-﻿@model IEnumerable<CEby_Website.Models.EnrollClassModel>
+﻿@model CEby_Website.Models.EnrollClassModel
 
 @{
-    ViewBag.Title = "Enroll in a Class";
+    Layout = null;
 }
 
-<h2>Enroll in a class</h2>
+<!DOCTYPE html>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.UserId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.ClassId)
-        </th>
-        <th></th>
-    </tr>
-
-    @foreach (var item in Model)
-    {
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>EnrollAClass</title>
+</head>
+<body>
+    <table class="table">
         <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.UserId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ClassId)
-            </td>
-
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-            </td>
+            <th>
+                @Html.DisplayNameFor(model => model.ClassId)
+            </th>
         </tr>
-    }
-
-</table>
+    </table>
+</body>
+</html>

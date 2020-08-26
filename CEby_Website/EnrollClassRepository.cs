@@ -8,7 +8,8 @@ namespace CEby_Website
     public interface IEnrollClassRepository
     {
         EnrollClassModel Add(int userId, int classId);
-        EnrollClassModel[] GetAll(int userId);
+        bool Remove(int userId, int classId);
+        List<EnrollClassModel> GetEnrolledClasses(int userId);
     }
 
     public class EnrollClassModel
@@ -21,6 +22,7 @@ namespace CEby_Website
     {
         public EnrollClassModel Add(int userId, int classId)
         {
+            
             var newClass = DatabaseAccessor.Instance.UserClass.First(t => t.ClassId == classId);
             var enrollClass = DatabaseAccessor.Instance.User.Where(t => t.UserId == userId).First();
 
@@ -29,17 +31,32 @@ namespace CEby_Website
 
             return new EnrollClassModel { UserId = newClass.UserId, ClassId = newClass.ClassId };
         }
-        public EnrollClassModel[] GetAll(int userId)
+        public List<EnrollClassModel> GetEnrolledClasses(int userId)
         {
-            var items = DatabaseAccessor.Instance.UserClass
+            return DatabaseAccessor.Instance.UserClass
                 .Where(t => t.UserId == userId)
                 .Select(t => new EnrollClassModel
                 {
                     UserId = t.UserId,
                     ClassId = t.ClassId
                 })
-                .ToArray();
-            return items;
+                .ToList();            
+        }
+
+        public bool Remove(int userId, int classId)
+        {
+            var items = DatabaseAccessor.Instance.UserClass
+                .Where(t => t.UserId == userId && t.ClassId == classId);
+
+            if (items.Count() == 0)
+            {
+                return false;
+            }
+
+            DatabaseAccessor.Instance.UserClass.Remove(items.First());
+            DatabaseAccessor.Instance.SaveChanges();
+            return true;
+
         }
     }
 }

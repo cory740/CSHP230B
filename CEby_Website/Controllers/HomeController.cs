@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using CEby_Website.Data;
 using CEby_Website.Models;
+using Microsoft.Ajax.Utilities;
 
 namespace CEby_Website.Controllers
 {
@@ -23,6 +24,7 @@ namespace CEby_Website.Controllers
 
         public ActionResult Index()
         {
+
             return View();
         }
 
@@ -40,31 +42,23 @@ namespace CEby_Website.Controllers
             return View();
         }
 
-        public ActionResult Classes(int id)
+        public ActionResult Classes()
         {
+            var classes = classRepository.Classes
+                .Select(t => new CEby_Website.Models.ClassModel(t.ClassId, t.ClassName, t.ClassDescription, t.ClassPrice))
+                .ToArray();
 
-            var classes = classRepository
-                    .ForClass(id)
-                    .Select(t =>
-                    new CEby_Website.ClassModel
-                    {
-                        ClassId = t.ClassId,
-                        ClassName = t.ClassName,
-                        ClassDescription = t.ClassDescription,
-                        ClassPrice = t.ClassPrice
-                    }).ToArray();
-
-            return View(classes);
+            var model = new IndexModel { GetClasses = classes };
+            return View(model);
         }
 
         [Authorize]
-        public ActionResult EnrollAClass(int id)
+        public ActionResult EnrollAClass(int classId)
         {
             var user = (CEby_Website.Models.UserModel)Session["User"];
-            var item = enrollClassRepository.Add(user.Id, id);
-            //var item = shoppingCartManager.Add(user.Id, id, 1);
-            //var items = shoppingCartManager.GetAll(user.Id)
-            var items = enrollClassRepository.GetAll(user.Id)
+            var item = enrollClassRepository.Add(user.Id, classId);
+
+            var items = enrollClassRepository.GetEnrolledClasses(user.Id)
                 .Select(t => new CEby_Website.Models.EnrollClassModel
                 {
                     UserId = t.UserId,
@@ -73,6 +67,25 @@ namespace CEby_Website.Controllers
                 .ToArray();
             return View(items);
         }
+
+        [Authorize]
+        public ActionResult GetEnrolledClasses()
+        {
+            var userClasses = GetEnrolledClasses();
+
+            if (userClasses == null)
+            {
+                TempData["Message"] = $"We were not able to find any enrolled classes.";
+            }
+            else
+            {
+                TempData["Message"] = $"We found the following enrolled classes {userClasses} {Environment.NewLine}";
+            }
+
+            return View(userClasses);
+        }
+
+
 
         [HttpGet]
         public ActionResult Register()
