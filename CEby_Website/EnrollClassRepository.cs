@@ -7,6 +7,7 @@ namespace CEby_Website
 {
     public interface IEnrollClassRepository
     {
+        EnrollClassModel[] UserClasses { get; }
         EnrollClassModel Add(int userId, int classId);
         bool Remove(int userId, int classId);
         List<EnrollClassModel> GetEnrolledClasses(int userId);
@@ -20,6 +21,20 @@ namespace CEby_Website
 
     public class EnrollClassRepository : IEnrollClassRepository
     {
+        public EnrollClassModel[] UserClasses
+        {
+            get
+            {
+                return DatabaseAccessor.Instance.UserClass
+                    .Select(t => new EnrollClassModel
+                    {
+                        ClassId = t.ClassId,
+                        UserId = t.UserId
+                    })
+                    .ToArray();
+            }
+            
+        }
         public EnrollClassModel Add(int userId, int classId)
         {
             

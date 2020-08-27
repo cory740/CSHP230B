@@ -7,6 +7,7 @@ using CEby_Website.Data;
 using CEby_Website.Models;
 using Microsoft.Ajax.Utilities;
 
+
 namespace CEby_Website.Controllers
 {
     public class HomeController : Controller
@@ -53,25 +54,9 @@ namespace CEby_Website.Controllers
         }
 
         [Authorize]
-        public ActionResult EnrollAClass(int classId)
+        public ActionResult StudentClasses(int userId)
         {
-            var user = (CEby_Website.Models.UserModel)Session["User"];
-            var item = enrollClassRepository.Add(user.Id, classId);
-
-            var items = enrollClassRepository.GetEnrolledClasses(user.Id)
-                .Select(t => new CEby_Website.Models.EnrollClassModel
-                {
-                    UserId = t.UserId,
-                    ClassId = t.ClassId
-                })
-                .ToArray();
-            return View(items);
-        }
-
-        [Authorize]
-        public ActionResult GetEnrolledClasses()
-        {
-            var userClasses = GetEnrolledClasses();
+            var userClasses = enrollClassRepository.GetEnrolledClasses(userId);
 
             if (userClasses == null)
             {
@@ -85,8 +70,31 @@ namespace CEby_Website.Controllers
             return View(userClasses);
         }
 
+        [Authorize]
+        [HttpGet]
+        public ActionResult EnrollInClass()
+        {
+            var classOptions = Classes();
+            return View(classOptions);
+        }
 
+        [HttpPost]
+        public ActionResult EnrollAClass(EnrollClassModel model)
+        {
+            var user = (CEby_Website.Models.UserModel)Session["User"];
+            //var item = enrollClassRepository.GetEnrolledClasses(model);
 
+            var items = enrollClassRepository.GetEnrolledClasses(user.Id)
+                .Select(t => new CEby_Website.Models.EnrollClassModel
+                {
+                    UserId = t.UserId,
+                    ClassId = t.ClassId
+                })
+                .ToArray();
+            return View(items);
+        }
+
+       
         [HttpGet]
         public ActionResult Register()
         {
