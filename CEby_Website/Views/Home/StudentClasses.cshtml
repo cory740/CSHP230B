@@ -1,0 +1,26 @@
+﻿@model IEnumerable<CEby_Website.Models.ClassViewModel>
+
+
+@{
+    ViewBag.Title = "StudentClasses";
+}
+
+<h2>Student Classes</h2>
+
+<table class="table">
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ClassPrice)
+            </td>
+        </tr>
+    }
+
+</table>

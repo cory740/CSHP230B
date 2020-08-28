@@ -1,0 +1,35 @@
+﻿@model CEby_CoreWebsite.Models.IndexModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Classes</title>
+</head>
+<body>
+    <div>
+        <h4>IndexModel</h4>
+        <hr />
+        <dl class="dl-horizontal">
+        </dl>
+    </div>
+    <div class="row">
+        @foreach (var getClass in Model.GetClasses)
+        {
+            <table>
+                <tr>
+                    <td>@getClass.ClassId</td>
+                    <td>@getClass.ClassName</td>
+                    <td>@getClass.ClassDescription</td>
+                    <td>@getClass.ClassPrice</td>
+                </tr>
+            </table>
+        }
+    </div>
+</body>
+</html>

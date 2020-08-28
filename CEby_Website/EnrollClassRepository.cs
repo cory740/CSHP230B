@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CEby_Website.Data;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -15,6 +16,7 @@ namespace CEby_Website
 
     public class EnrollClassModel
     {
+        public IEnumerable<Class> ClassList { get; set; }
         public int UserId { get; set; }
         public int ClassId { get; set; }
     }

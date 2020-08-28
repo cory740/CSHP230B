@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
+using System.IdentityModel.Metadata;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CEby_Website.Data;
 using CEby_Website.Models;
 using Microsoft.Ajax.Utilities;
-
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace CEby_Website.Controllers
 {
@@ -56,43 +58,46 @@ namespace CEby_Website.Controllers
         [Authorize]
         public ActionResult StudentClasses(int userId)
         {
-            var userClasses = enrollClassRepository.GetEnrolledClasses(userId);
-
-            if (userClasses == null)
-            {
-                TempData["Message"] = $"We were not able to find any enrolled classes.";
-            }
-            else
-            {
-                TempData["Message"] = $"We found the following enrolled classes {userClasses} {Environment.NewLine}";
-            }
-
-            return View(userClasses);
+            var database = new ClassViewModel();
+            var sessionUser = (CEby_Website.Models.UserModel)Session["User"];
+            var user = DatabaseAccessor.Instance.User.First(t => t.UserId == sessionUser.Id);
+            return View(user.UserClass);
         }
 
         [Authorize]
-        [HttpGet]
         public ActionResult EnrollInClass()
         {
-            var classOptions = Classes();
-            return View(classOptions);
+
+            var classOptions = new ClassViewModel();
+            var model = new EnrollClassModel()
+            {
+                ClassList = classOptions.Classes
+
+                //classRepository.Classes
+                //.Select(t => new ClassModel { ClassId = t.ClassId, ClassName = t.ClassName, ClassDescription = t.ClassDescription, ClassPrice = t.ClassPrice })
+                //.ToArray();
+            };
+
+            return View(model);
         }
 
         [HttpPost]
         public ActionResult EnrollAClass(EnrollClassModel model)
         {
-            var user = (CEby_Website.Models.UserModel)Session["User"];
+            var database = new ClassViewModel();
+            var sessionUser = (CEby_Website.Models.UserModel)Session["User"];
             //var item = enrollClassRepository.GetEnrolledClasses(model);
+            var user = DatabaseAccessor.Instance.User.First(t => t.UserId == sessionUser.Id);
+            var newClass = DatabaseAccessor.Instance.Class.First(t => t.ClassId == model.ClassId);
 
-            var items = enrollClassRepository.GetEnrolledClasses(user.Id)
-                .Select(t => new CEby_Website.Models.EnrollClassModel
-                {
-                    UserId = t.UserId,
-                    ClassId = t.ClassId
-                })
-                .ToArray();
-            return View(items);
+            user.UserClass.Add(newClass);
+
+            database.SaveChanges();
+
+            return Redirect("~/Home/StudentClasses");
         }
+
+        []
 
        
         [HttpGet]

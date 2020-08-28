@@ -11,11 +11,10 @@ namespace CEby_CoreWebsite.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly IClassRepository classRepository;
+        public HomeController(IClassRepository classRepository)
         {
-            _logger = logger;
+            this.classRepository = classRepository;
         }
 
         public IActionResult Index()
@@ -32,6 +31,16 @@ namespace CEby_CoreWebsite.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public ActionResult Classes()
+        {
+            var classes = classRepository.Classes
+                .Select(t => new CEby_CoreWebsite.Models.ClassModel(t.ClassId, t.ClassName, t.ClassDescription, t.ClassPrice))
+                .ToArray();
+
+            var model = new IndexModel { GetClasses = classes };
+            return View(model);
         }
     }
 }
